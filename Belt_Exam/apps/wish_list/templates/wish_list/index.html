@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+  <h1>Hello, {{user.first_name}}</h1>
+  <h2> Can I get back and forth from my login?</h2>
+  <a href="{% url 'login:logout' %}">Logout</a>
+  <p>Your Wish List:  </p>
+
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Added by</th>
+      <th>Date Added</th>
+      <th>Action</th>
+    </tr>
+    <!--Ok so now I need to pass back my course id liekly with a P?<id> regex  -->
+    <!--if I can't get the atag to pass back the id I might have to use a form?  -->
+    {% for item in my_items %}
+    <tr>
+      <td><a href="{% url 'wish_list:view_item' item.id  %}">{{ item.item_name }} </a></td>
+      <td>{{ item.created_by.first_name }}</td>
+      <td>{{ item.created_at }}</td>
+      <td> <a href="{% url 'wish_list:remove_wish' item.id %}">Remove item from wish list  </a></td>
+    </tr>
+    {% endfor %}
+
+  </table>
+
+  <p>Other User's Wishes ((this should be all items not sure how to sort it but it needs to be .exclude(current user) )) </p>
+
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Added by</th>
+      <th>Date Added</th>
+      <th>Action</th>
+    </tr>
+    <!--Ok so now I need to pass back my course id liekly with a P?<id> regex  -->
+    <!--if I can't get the atag to pass back the id I might have to use a form?  -->
+
+    <p></p>
+
+    {% for item in other_items %}
+    <tr>
+      <td><a href="{% url 'wish_list:view_item' item.id %}">{{ item.item_name }} </a></td>
+      <td>{{ item.created_by.first_name }}</td>
+      <td>{{ item.created_at }}</td>
+      <td> <a href="{% url 'wish_list:wish_for_item' item.id %}">wish_for_item {{item.id}}  </a></td>
+    </tr>
+  {% endfor %}
+
+  </table>
+
+  <p>Testing route paramaters</p>
+  <form class="" action="{% url 'wish_list:index' %}" method="post">
+     {% csrf_token %}
+    <input type="text" name="thisisthekeytoinputfield_text" value="valueof_text">
+    <input type="submit" name="thisisthekeytoinoutfield_submit" value="valueof_submit">
+  </form>
+
+  {%for key in post_messages %}
+  <p>{{key}} : </p>
+
+  {% endfor %}
+
+  {% if messages %}
+  {% for error in messages %}
+      <p >{{error}}</p>
+  {% endfor %}
+
+  {% endif %}
+
+
+
+  <a href="{% url 'wish_list:create_item' %}">Add Item</a>
+
+</body>
+</html>

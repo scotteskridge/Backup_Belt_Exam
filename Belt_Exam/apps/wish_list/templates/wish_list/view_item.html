@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+
+  <a href="{% url 'wish_list:index' %}">Home</a>
+  <a href="{% url 'login:logout' %}">Logout</a>
+
+  <h1>Hello {{user.first_name}} You're Veiwing : {{item.item_name}}</h1>
+  <h3>Other Users who added the item to thier wish list:</h3>
+  <p>((this will be easier if I don't filter by the logged in user))</p>
+  <ul>
+    {% for wisher in wishers %}
+    <li>{{wisher.first_name}}</li>
+    {% endfor %}
+  </ul>
+
+
+</body>
+</html>

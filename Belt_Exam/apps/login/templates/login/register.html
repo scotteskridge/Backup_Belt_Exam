@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Registration</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'login/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+  <div class="loginwrapper">
+
+    <form id="login" action="{% url 'login:submit_register' %}" method="POST">
+       {% csrf_token %}
+      <h1>Registration</h1>
+      <ul class="flex-outer">
+           <li>
+             <label for="first_name">First Name:</label>
+             <input type="text" id="first_name" name="first_name" min="2" placeholder="Enter your first name here">
+           </li>
+           <li>
+             <label for="last_name">Last Name:</label>
+             <input type="text" id="last_name" name="last_name"  min="2" placeholder="Enter your last name here">
+           </li>
+           <li>
+             <label for="email">Email:</label>
+             <input type="email" id="email" name = "email" placeholder="Enter your email here">
+           </li>
+           <li>
+             <label for="password">Password:</label>
+             <input type="password" id="password" name ="password" value ="password" min=6 placeholder= " Enter your password here" >
+           </li>
+           <li>
+             <label for="message"> Confirm :</label>
+             <input  type="password" id="password_confirm" name="password_confirm" value ="password" min=6 placeholder="Confirm your password here"></textarea>
+           </li>
+
+           <li>
+             <button class="submit" type="submit">Submit</button>
+            <!-- <button class ="back" type="submit" value="Back">Back</button> -->
+            <a href="{% url 'login:index' %}" class="back">Back</a>
+           </li>
+         </ul>
+
+    </form>
+    {% if messages %}
+    {% for error in messages %}
+        <p >{{error}}</p>
+    {% endfor %}
+      <a href="{% url 'login:register' %}" class="back">Register</a>
+    {% endif %}
+  </div>
+</body>
+</html>

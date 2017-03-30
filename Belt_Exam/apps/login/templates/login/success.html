@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Success</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+    <h1>You are now logged in</h1>
+    <p>Welcome {{request.session.first_name}} your user ID is {{request.session.user_id}}</p>
+    <a href="{% url 'wish_list:index' %}">Go to wish_list</a>
+  </body>
+</html>

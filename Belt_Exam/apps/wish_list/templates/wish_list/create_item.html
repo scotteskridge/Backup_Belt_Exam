@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+  <a href="{% url 'wish_list:index' %}">Home</a>
+  <a href="{% url 'login:logout' %}">Logout</a>
+  <h1>Wish for a new Item</h1>
+
+  <form class="" action="{% url 'wish_list:confirm_create_item' %}" method="post">
+    {% csrf_token %}
+    <label for="Item_Name">Item/Product Name:</label>
+    <input type="text" name="item_name" value="item_name" placeholder="Enter your item name here">
+    <button class="submit" type="submit">Submit</button>
+  </form>
+
+  {% if messages %}
+  {% for error in messages %}
+      <p >{{error}}</p>
+  {% endfor %}
+    
+  {% endif %}
+
+</body>
+</html>

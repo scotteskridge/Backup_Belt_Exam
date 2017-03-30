@@ -1,0 +1,94 @@
+Steps for provisioning your server and deployment
+
+Use the following to find and replace:
+Belt_Exam -- Django project name
+Belt_Exam -- Github repo name
+34.208.129.107-- AWS public IP, remember to make edit in step 14
+
+In terminal navigate to the root folder of your project with venv activated
+1) pip freeze > requirements.txt
+2) touch .gitignore
+Copy the following in to .gitignore:
+------------------------------------------
+*.pyc
+venv/
+*.zip
+------------------------------------------
+Initialize, Commit and push to github:
+> git init
+> git add --all
+> git commit -m "initial commit"
+> git remote add origin https://github.com/scotteskridge/Belt_Exam.git <<< will be different
+> git push origin master
+Launch a new AWS EC2 Instance.
+Configure security Group; Add types HTTP, HTTPS set source to Anywhere. Change SSH source to My IP
+Save issued PEM file in a save none uploadable folder
+Navigate to the folder with the PEM folder
+3) chmod 400 django_pem.pem  <<< file name may be differed (probably will be)
+connect via ssh to you aws server
+4) ubuntu@54.162.31.253:~$ sudo apt-get update
+5) ubuntu@54.162.31.253:~$ sudo apt-get install python-pip python-dev nginx git
+6) ubuntu@54.162.31.253:~$ sudo apt-get update
+7) ubuntu@54.162.31.253:~$ sudo pip install virtualenv
+7a) Clone your project from github using:\\ git clone https://github.com/scotteskridge/Belt_Exam.git
+8) ubuntu@54.162.31.253:~/myRepoName$ virtualenv venv
+9) ubuntu@54.162.31.253:~/myRepoName$ source venv/bin/activate
+10) (venv)ubuntu@54.162.31.253:~/myRepoName$ sudo pip install -r requirements.txt
+11) (venv) ubuntu@54.162.31.253:~/myRepoName$ sudo pip install django bcrypt django-extensions
+12) (venv) ubuntu@54.162.31.253:~/myRepoName$ sudo pip install gunicorn
+13) (venv) ubuntu@54.162.31.253:~/myRepoName$ cd Belt_Exam
+14) (venv) ubuntu@54.162.31.253:~/myRepoName/projectName$ sudo vim settings.py
+make the following edits in settings.py
+-------------------------------------------------
+# Inside settings.py
+# modify these lines in cd Ni
+DEBUG = False
+ALLOWED_HOSTS = ['{{yourEC2.public.ip}}']
+# add the line below to the bottom of the file
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+-------------------------------------------------
+15) cd ..
+############### redo this if you need to reload static ################
+16) (venv) ubuntu@54.162.31.253:~myRepoName$ python manage.py collectstatic
+say yes
+17) (venv) ubuntu@54.162.31.253:~myRepoName$ gunicorn --bind 0.0.0.0:8000 Belt_Exam.wsgi:application
+ctrl+c to exit process
+18) deactivate
+19) ubuntu@54.162.31.253:~myRepoName$ sudo vim /etc/systemd/system/gunicorn.service
+Copy and edit the following into gunicorn..service
+---------------------------------------------------
+[Unit]
+Description=gunicorn daemon
+After=network.target
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/Belt_Exam
+ExecStart=/home/ubuntu/Belt_Exam/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/Belt_Exam/Belt_Exam.sock Belt_Exam.wsgi:application
+[Install]
+WantedBy=multi-user.target
+---------------------------------------------------
+20) cd ..
+21) ubuntu@54.162.31.253:~$ sudo systemctl daemon-reload
+22) ubuntu@54.162.31.253:~$ sudo systemctl start gunicorn
+23) ubuntu@54.162.31.253:~$ sudo systemctl enable gunicorn
+24) ubuntu@54.162.31.253:~$ sudo vim /etc/nginx/sites-available/Belt_Exam
+Copy and edit the following into the document
+------------------------------------------------------
+server {
+  listen 80;
+  server_name 52.35.52.208;
+  location = /favicon.ico { access_log off; log_not_found off; }
+  location /static/ {
+      root /home/ubuntu/Belt_Exam;
+  }
+  location / {
+      include proxy_params;
+      proxy_pass http://unix:/home/ubuntu/Belt_Exam/Belt_Exam.sock;
+  }
+}
+-----------------------------------------------------------
+25) ubuntu@54.162.31.253:~$ sudo ln -s /etc/nginx/sites-available/Belt_Exam /etc/nginx/sites-enabled
+26) ubuntu@54.162.31.253:~$ sudo nginx -t
+27) ubuntu@54.162.31.253:~$ sudo rm /etc/nginx/sites-enabled/default
+28) ubuntu@54.162.31.253:~$ sudo service nginx restart

@@ -16,6 +16,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pyc
+venv/
+db.sqlite3
 
 # =========================
 # Operating System Files

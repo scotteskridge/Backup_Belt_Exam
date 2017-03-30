@@ -1,0 +1,178 @@
+*{
+  padding: 0px;
+  margin: 0px;
+    font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+}
+
+
+body {
+ background: url('images/seattlehdr.jpg');
+ background-size:cover;
+ background-repeat: no-repeat;
+ /*box-shadow: 0px 0px 35px 2px rgba(0,0,0,0.8) inset;*/
+
+}
+
+.header{
+  box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.9);
+  display: flex;
+  padding: 10px;
+  background-color: rgba(52,73,94 ,0.9);
+  color: rgba(236,240,241 ,1);
+  position: fixed;
+  width: 90vw;
+  left:0px;
+  right: 0px;
+  top:0px;
+  margin: 0 auto;
+  z-index: 10;
+
+}
+
+.header p, a, h3{
+  margin: 5px;
+  font-weight: 600;
+
+}
+.header a{
+  color: rgba(52,152,219 ,1);
+}
+.header h3{
+  flex-grow: 1;
+
+}
+
+.loginwrapper {
+  width: 80%;
+  max-width: 1200px;
+  margin: 15px auto;
+  font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+  background: rgba(52,73,94 ,0.9);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
+  padding: 10px;
+  box-sizing: border-box;
+  width: 50%;
+  height: 50%;
+}
+
+
+
+.flex-outer,
+.flex-inner {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flex-outer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.flex-outer li,
+.flex-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.flex-inner {
+  padding: 0 4px;
+  justify-content: space-between;
+}
+
+.flex-outer > li:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.flex-outer li label,
+.flex-outer li p {
+  padding: 4px;
+  font-weight: 300;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.flex-outer > li > label,
+.flex-outer li p {
+  flex: 1 0 120px;
+  max-width: 220px;
+}
+
+.flex-outer > li > label + *,
+.flex-inner {
+  flex: 1 0 220px;
+}
+
+.flex-outer li p {
+  margin: 0;
+}
+
+.flex-outer li input:not([type='checkbox']),
+.flex-outer li textarea {
+  padding: 15px;
+  border: none;
+}
+
+.flex-outer li button, a {
+  margin-left: auto;
+  padding: 10px 16px;
+  border: none;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  border-radius: 3px;
+  font-weight: 400;
+}
+
+.flex-inner li {
+  width: 100px;
+}
+
+.submit{
+  width: 100%;
+  background-color: rgba(52,152,219 ,1);
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.8);
+}
+
+.back{
+  width: 100%;
+  background-color: rgba(231,76,60 ,1);
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.8);
+  margin: 15px 0px;
+  text-align: center;
+  text-decoration: none;;
+}
+
+.main{
+  background-color: rgba(236,240,241 ,0.9);
+  width: 80%;
+  height: 1500px;
+  margin: 75px auto;
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.9);
+  padding: 15px;
+}
+.messagebox{
+  display: flex;
+  flex-direction: column;
+}
+
+.main form textarea{
+  width: 100%;
+}
+.main button{
+  width: 75px;
+  margin-top: 15px;
+  align-self: flex-end;
+}
+
+.messagedisplay{
+  display: flex;
+  flex-direction: column;
+  padding: 5px 35px;
+}
+
+.messagedisplay h3{
+  margin-left: -15px;
+}
